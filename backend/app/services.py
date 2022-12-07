@@ -1,10 +1,13 @@
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.adcreative import AdCreative
 from facebook_business.adobjects.adset import AdSet
+from facebook_business.adobjects.campaign import Campaign
 from facebook_business.api import FacebookAdsApi
+from facebook_business.exceptions import FacebookRequestError
 from .models import CampaignModel, AdSetModel, AdCreativeModel
 import dotenv
 import os
+import random
 
 dotenv.load_dotenv()
 
@@ -15,7 +18,6 @@ ACCOUNT_ID = os.getenv("ACCOUNT_ID")
 
 
 class FacebookAdService:
-
     last_created_campaign_id = None
     last_created_ad_set_id = None
     last_created_ad_creative_id = None
@@ -52,7 +54,7 @@ class FacebookAdService:
             'bid_amount': ad_set_model.bid_amount,
             'billing_event': ad_set_model.billing_event,
             'optimization_goal': ad_set_model.optimization_goal,
-            'targeting': {'geo_locations': {'countries': ad_set_model.target_countries},
+            'targeting': {'geo_locations': {'countries': ad_set_model.target_countries},  # kw,ua,
                           'age_min': ad_set_model.target_min_age,
                           'age_max': ad_set_model.target_max_age},
 
@@ -86,7 +88,7 @@ class FacebookAdService:
     def display_insights(self, ad_set_id, fields=None):
         self.__initialize__()
         if not fields:  # clicks, impressions
-            fields = []
+            fields = ["clicks"]
         ad_set = AdSet(ad_set_id)
         insights = ad_set.get_insights(fields=fields)
         print(insights)

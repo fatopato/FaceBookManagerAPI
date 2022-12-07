@@ -7,8 +7,8 @@ app = FastAPI()
 service = FacebookAdService()
 
 origins = [
-    "http://localhost:3000",
-    "localhost:3000"
+    "http://localhost:3006",
+    "localhost:3006",
 ]
 
 app.add_middleware(
@@ -20,7 +20,7 @@ app.add_middleware(
 )
 
 
-@app.get("/", tags=["root"])
+@app.get("/home", tags=["root"])
 async def read_root() -> dict:
     return {"message": "Welcome to your todo list."}
 
@@ -36,12 +36,12 @@ async def create_ad_set(ad_set: AdSetModel):
 
 
 @app.post("/ad-creatives/")
-async def create_ad_set(ad_creative: AdCreativeModel):
+async def create_ad_creative(ad_creative: AdCreativeModel):
     return service.create_ad_creative(ad_creative)
 
 
-@app.post("/ad-creatives/")
-async def create_ad_set(ad_creative: AdCreativeModel):
-    return service.create_ad_creative(ad_creative)
+@app.get("/display-insights/{ad_set_id}")
+async def create_ad_set(ad_set_id):
+    return service.display_insights(ad_set_id)
 
 
