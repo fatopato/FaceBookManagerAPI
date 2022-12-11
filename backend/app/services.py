@@ -1,3 +1,5 @@
+import datetime
+
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.adcreative import AdCreative
 from facebook_business.adobjects.adset import AdSet
@@ -8,13 +10,20 @@ from .models import CampaignModel, AdSetModel, AdCreativeModel
 import dotenv
 import os
 import random
+import json
 
 dotenv.load_dotenv()
+#
+# APP_ID = os.getenv("APP_ID")
+# APP_SECRET = os.getenv("APP_SECRET")
+# ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
+# ACCOUNT_ID = os.getenv("ACCOUNT_ID")
 
-APP_ID = os.getenv("APP_ID")
-APP_SECRET = os.getenv("APP_SECRET")
-ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-ACCOUNT_ID = os.getenv("ACCOUNT_ID")
+APP_ID = '438080767979521'
+APP_SECRET = 'ff2002ad9af7137b75aafe9e828571e8'
+ACCESS_TOKEN = 'EAAGObqCO8AEBAEdGqzCMoqT6yqJ0WuGh1cZBNYrZAFGSrCgiwWCJM1LoAdSOkzNHyIPKaige32ei1xdeoDVeivZCw4KQ6vY9Rg0' \
+               'nNdByU1uvjtaVBUVWKmE9ZAbZCd4npxouabtcRxAF3FsKtRztLdoQiUa4FluxoUGVzXd1QZAWvZC9adz16WH3aoqSf7PtCkZD '
+ACCOUNT_ID = 'act_3061829570753376'
 
 
 class FacebookAdService:
@@ -43,14 +52,15 @@ class FacebookAdService:
         )
         self.last_created_campaign_id = created_campaign.__dict__.get("_data").get("id")
         print("Campaign created:", self.last_created_campaign_id)
-        return created_campaign
+        campaign.id = self.last_created_campaign_id
+        return campaign
 
     def create_ad_set(self, ad_set_model: AdSetModel):
         params = {
             'name': ad_set_model.name,
             'daily_budget': ad_set_model.daily_budget,
-            'start_time': ad_set_model.start_time,
-            'end_time': ad_set_model.end_time,
+            'start_time': ad_set_model.start_time if ad_set_model.start_time else datetime.datetime.now(),
+            'end_time': ad_set_model.end_time if ad_set_model.end_time else datetime.datetime.now() + datetime.timedelta(ad_set_model.ends_after),
             'bid_amount': ad_set_model.bid_amount,
             'billing_event': ad_set_model.billing_event,
             'optimization_goal': ad_set_model.optimization_goal,
@@ -58,14 +68,15 @@ class FacebookAdService:
                           'age_min': ad_set_model.target_min_age,
                           'age_max': ad_set_model.target_max_age},
 
-            'campaign_id': ad_set_model.campaign_id,
+            'campaign_id': ad_set_model.campaign_id if ad_set_model.campaign_id else self.last_created_campaign_id,
             'status': ad_set_model.status,
         }
         my_account = self.get_account()
         created_ad_set = my_account.create_ad_set(params=params, )
         self.last_created_ad_set_id = created_ad_set.__dict__.get("_data").get("id")
         print("Created Ad Set:", self.last_created_ad_set_id)
-        return created_ad_set
+        ad_set_model.id = self.last_created_ad_set_id
+        return ad_set_model
 
     def create_ad_creative(self, ad_creative: AdCreativeModel):
         my_account = self.get_account()
