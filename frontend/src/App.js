@@ -3,6 +3,7 @@ import CampaignForm from './components/CampaignForm'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import CollapsibleNavbar from "./components/CollapsibleNavbar";
 import AdSetForm from "./components/AdSetForm";
+import AdCreativeForm from "./components/AdCreativeForm";
 
 
 class App extends React.Component {
@@ -28,6 +29,7 @@ class App extends React.Component {
                 {/*<Route exact path="/" element={<Home/>}/>*/}
                 <Route exact path="/campaigns" element={<CampaignForm/>}/>
                 <Route exact path="/adsets" element={<AdSetForm/>}/>
+                <Route exact path="/adcreatives" element={<AdCreativeForm/>}/>
                 {/*<Route exact path="/recovery-password" element={<RecoveryPassword/>}/>*/}
                 {/*<Route path="*" element={<NotFound/>}/>*/}
             </Routes>

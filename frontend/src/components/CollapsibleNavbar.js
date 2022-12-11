@@ -13,7 +13,7 @@ function CollapsibleNavbar() {
                     <Nav className="me-auto">
                         <Nav.Link href="/campaigns">Campaign</Nav.Link>
                         <Nav.Link href="/adsets">Ad Set</Nav.Link>
-                        <Nav.Link href="#pricing">Ad Creative</Nav.Link>
+                        <Nav.Link href="/adcreatives">Ad Creative</Nav.Link>
                         <NavDropdown title="Default Tasks" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Create Default Campaign</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">

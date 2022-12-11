@@ -51,6 +51,11 @@ async def create_ad_set(ad_set_id):
     return service.display_insights(ad_set_id)
 
 
+@app.get("/preview_ad/{ad_creative_id}")
+async def preview_ad(ad_creative_id):
+    return service.preview_ad(ad_creative_id)
+
+
 @app.post("/tasks/create_campaign")
 async def call_task_create_campaign():
     return task_manager.task_create_campaign()

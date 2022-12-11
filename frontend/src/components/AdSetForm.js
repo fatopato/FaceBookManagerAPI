@@ -53,7 +53,7 @@ function CampaignForm() {
             let resJson = await res.json();
             console.log(resJson)
             setCompleted(true)
-            if (res.status === 200) {
+            if (res.status === 200 && resJson["errorMessage"] == null) {
                 setName("")
                 setDailyBudget(0)
                 setEndsAfter(0)
@@ -69,7 +69,7 @@ function CampaignForm() {
                 handleShow()
             } else {
                 setMessage("Some error occured");
-                setMessageDetail("The error: " + resJson)
+                setMessageDetail("The error: " + resJson["errorMessage"])
                 handleShow()
             }
         } catch (err) {

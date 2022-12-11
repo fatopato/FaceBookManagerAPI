@@ -37,8 +37,9 @@ function CampaignForm() {
             })
             let resJson = await res.json();
             console.log(resJson)
+            console.log(resJson["errorMessage"])
             setCompleted(true)
-            if (res.status === 200) {
+            if (res.status === 200 && resJson["errorMessage"] == null) {
                 setCampaignName("");
                 setObjective("");
                 setMessage("Campaign created successfully");
@@ -46,7 +47,7 @@ function CampaignForm() {
                 handleShow()
             } else {
                 setMessage("Some error occurred" );
-                setMessageDetail("The error: " + resJson)
+                setMessageDetail("The error: " + resJson["errorMessage"])
                 handleShow()
             }
         } catch (err) {
