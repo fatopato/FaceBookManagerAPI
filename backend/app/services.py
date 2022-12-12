@@ -1,17 +1,14 @@
 import datetime
+import random
 
+import dotenv
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.adobjects.adcreative import AdCreative
 from facebook_business.adobjects.adset import AdSet
-from facebook_business.adobjects.campaign import Campaign
 from facebook_business.api import FacebookAdsApi
 from facebook_business.exceptions import FacebookRequestError
+
 from .models import CampaignModel, AdSetModel, AdCreativeModel
-import dotenv
-import os
-import random
-import json
-from fastapi import FastAPI, HTTPException
 
 dotenv.load_dotenv()
 #
@@ -140,7 +137,7 @@ class FacebookAdService:
         except Exception as other_e:
             return {"errorMessage": other_e.message}
 
-    def preview_ad(self, creative_id, add_format="DESKTOP_FEED_STANDARD", fields=None):
+    def preview_ad(self, creative_id, add_format="JOB_BROWSER_DESKTOP", fields=None):
         self.__initialize__()
         if not fields:
             fields = []
@@ -149,9 +146,7 @@ class FacebookAdService:
         }
         try:
             ad_creative = AdCreative(creative_id)
-            print(ad_creative)
-            previewed_add = ad_creative.get_pre_views(fields=fields, params=params, )
-            print(previewed_add)
+            previewed_add = ad_creative.get_pre_views(fields=fields, params=params)
             return previewed_add
         except FacebookRequestError as e:
             print(e.__dict__)

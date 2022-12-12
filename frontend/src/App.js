@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import CollapsibleNavbar from "./components/CollapsibleNavbar";
 import AdSetForm from "./components/AdSetForm";
 import AdCreativeForm from "./components/AdCreativeForm";
+import HomePage from "./components/pages/HomePage";
 
 
 class App extends React.Component {
@@ -15,18 +16,12 @@ class App extends React.Component {
     };
   }
 
-  componentDidMount() {
-    fetch('http://localhost:8000/home')
-        .then(response => response.json())
-        .then(response => this.setState({'message': response.message}))
-  }
-
   render() {
     return (
         <Router>
           <CollapsibleNavbar />
             <Routes>
-                {/*<Route exact path="/" element={<Home/>}/>*/}
+                <Route exact path="/" element={<HomePage/>}/>
                 <Route exact path="/campaigns" element={<CampaignForm/>}/>
                 <Route exact path="/adsets" element={<AdSetForm/>}/>
                 <Route exact path="/adcreatives" element={<AdCreativeForm/>}/>

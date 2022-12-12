@@ -73,7 +73,7 @@ class TaskManager:
 
         try:
             created_ad_creative = service.create_ad_creative(ad_creative)
-            self.last_created_ad_creative_id = created_ad_creative.id
+            # self.last_created_ad_creative_id = created_ad_creative.id
             return created_ad_creative
 
         # connection error
